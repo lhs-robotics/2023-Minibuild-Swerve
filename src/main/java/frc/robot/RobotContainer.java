@@ -8,7 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PhysicalProperties;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.Swerve.AbsoluteFieldDrive;
+import frc.robot.commands.Swerve.TeleopDrive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDrive.SwerveSubsystem;
 import swervelib.math.SwerveMath;
@@ -49,14 +49,14 @@ public class RobotContainer {
 
     configureBindings();
 
-    AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
-        () -> MathUtil.applyDeadband(driver.getRawAxis(1),
-            OperatorConstants.LEFT_Y_DEADBAND),
+    TeleopDrive teleopDrive = new TeleopDrive(drivebase,
         () -> MathUtil.applyDeadband(driver.getRawAxis(0),
+            OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driver.getRawAxis(1),
             OperatorConstants.LEFT_X_DEADBAND),
-        () -> driver.getRawAxis(2));
+        () -> driver.getRawAxis(2), () -> false);
 
-    drivebase.setDefaultCommand(closedFieldAbsoluteDrive);
+    drivebase.setDefaultCommand(teleopDrive);
   }
 
   /**
@@ -74,7 +74,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // new JoystickButton(driver, 3).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    // new JoystickButton(driver, 3).onTrue((new
+    // InstantCommand(drivebase::zeroGyro)));
   }
 
   /**
